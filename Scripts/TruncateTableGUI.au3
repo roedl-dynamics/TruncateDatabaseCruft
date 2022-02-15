@@ -21,9 +21,9 @@
 #include <Array.au3>
 
 If (DirCreate(@TempDir & '\Scripts\')) Then
-	FileInstall("C:\Users\Adminc5af829dc8\Desktop\TruncateTables\Scripts\TruncateTables.ps1", @TempDir & '\Scripts\TruncateTables.ps1')
-	FileInstall("C:\Users\Adminc5af829dc8\Desktop\TruncateTables\Scripts\ProcedureTruncateCruft.sql", @TempDir & '\Scripts\ProcedureTruncateCruft.sql')
-	FileInstall("C:\Users\Adminc5af829dc8\Desktop\TruncateTables\Scripts\TruncateTableGUI.au3", @TempDir & '\Scripts\TruncateTableGUI.au3')
+	FileInstall("C:\Desktop\TruncateDatabaseCruft\Scripts\TruncateTables.ps1", @TempDir & '\Scripts\TruncateTables.ps1')
+	FileInstall("C:\Desktop\TruncateDatabaseCruft\Scripts\ProcedureTruncateCruft.sql", @TempDir & '\Scripts\ProcedureTruncateCruft.sql')
+	FileInstall("C:\Desktop\TruncateDatabaseCruft\Scripts\TruncateTableGUI.au3", @TempDir & '\Scripts\TruncateTableGUI.au3')
 EndIf
 
 InitGUI()
