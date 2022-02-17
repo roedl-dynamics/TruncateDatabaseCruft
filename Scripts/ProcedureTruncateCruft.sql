@@ -1,4 +1,4 @@
-USE AxDB
+-- USE AxDB
 -- ================================================
 -- Template generated from Template Explorer using:
 -- Create Procedure (New Menu).SQL
