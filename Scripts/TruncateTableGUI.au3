@@ -2,7 +2,7 @@
 #AutoIt3Wrapper_Icon=Scissors.ico
 #AutoIt3Wrapper_Outfile=..\TruncateDatabaseCruft.exe
 #AutoIt3Wrapper_Outfile_x64=..\TruncateDatabaseCruft.exe
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.34
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.40
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_CompanyName=Rödl Dynamics GmbH
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -64,7 +64,7 @@ Func InitGUI()
 	GUICtrlSetData($guiRemoveTableEnding, $tableEndings)
 
 	; Logo
-	Local $guiRoedlLogo					= GUICtrlCreatePic(@TempDir & '\Scripts\RödlPartnerLogo.jpg', 50, 20, 400, 75)
+	Local $guiRoedlLogo					= GUICtrlCreatePic(@TempDir & '\Scripts\RödlPartnerLogo.jpg', 0, 0, 500, 75)
 
     ; Display the GUI.
     GUISetState(@SW_SHOW, $hGUI)
