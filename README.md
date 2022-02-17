@@ -1,7 +1,7 @@
 # TruncateDatabaseCruft
 
 Truncate tables in a database to remove cruft.
-It is specifically written [D365FO](https://docs.microsoft.com/de-de/dynamics365/fin-ops-core/fin-ops/) databases when transferred from Prod to DEV systems.
+It is specifically written for [D365FO](https://docs.microsoft.com/de-de/dynamics365/fin-ops-core/fin-ops/) databases when transferred from Prod to DEV systems.
 
 
 # How to use
