@@ -20,3 +20,18 @@ It is specifically written for [D365FO](https://docs.microsoft.com/de-de/dynamic
 # How to change the scripts
 
 The program contains a SQL, a PowerShell and an [AutoIt](https://www.autoitscript.com/site/) script. For the AutoIt script you can use [SciTE](https://www.autoitscript.com/site/autoit-script-editor/) as an editor.
+
+## AutoIt FileInstall and Compiling
+
+The [FileInstall](https://www.autoitscript.com/autoit3/docs/functions/FileInstall.htm) function includes and installs a file with the compiled script.
+That means the following code would take the file YOUR_FILE and include it in the executable you can create with the script.
+If you then run the executable, it would put YOUR_FILE into the temp directory as YOUR_FILE_INSTALLED.
+
+```
+FileInstall(".\YOUR_FILE", @TempDir & '\YOUR_FILE_INSTALLED')
+```
+
+To compile the script, press <kbd>Ctrl</kbd> + <kbd>F7</kbd> while having it opened in SciTE.
+That will open a menu with options for compiling. In the first tab you can set the target file and the icon.
+All relevant values should be entered already.
+Start the compiler with the *Compile script* button.
