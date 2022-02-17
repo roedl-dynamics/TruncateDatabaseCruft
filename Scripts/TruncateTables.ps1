@@ -1,14 +1,14 @@
-﻿param([string]$server="", [string]$tableEnding="")
+﻿param([string]$server="", [string]$database="", [string]$tableEnding="")
 $query = Get-Content "$env:TEMP.\Scripts\ProcedureTruncateCruft.sql" -Raw
 $continue = 0
 try
 {
-    Invoke-Sqlcmd -ServerInstance $server -Database "AxDB" -Query $query -Verbose -ErrorAction SilentlyContinue
+    Invoke-Sqlcmd -ServerInstance $server -Database $database -Query $query -Verbose -ErrorAction SilentlyContinue
     $continue = 1
 }
 catch
 {
-    Write-Output "Failed to connect to $server"
+    Write-Output "Failed to connect to $database on $server"
 }
 
 if ($continue)
@@ -28,7 +28,7 @@ if ($continue)
                 {
                     try
                     {
-                        Invoke-Sqlcmd -ServerInstance $Server -Database "AxDB" -QueryTimeout 120 -OutputSqlErrors $True -ConnectionTimeout 5 -ErrorAction Stop -Query "EXEC TruncateNoise $tableNameEnding" -Verbose
+                        Invoke-Sqlcmd -ServerInstance $Server -Database $database -QueryTimeout 120 -OutputSqlErrors $True -ConnectionTimeout 5 -ErrorAction Stop -Query "EXEC TruncateNoise $tableNameEnding" -Verbose
                         $stop = 1
                     }
                     catch

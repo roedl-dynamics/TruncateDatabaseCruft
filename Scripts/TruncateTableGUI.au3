@@ -2,7 +2,7 @@
 #AutoIt3Wrapper_Icon=Scissors.ico
 #AutoIt3Wrapper_Outfile=..\TruncateDatabaseCruft.exe
 #AutoIt3Wrapper_Outfile_x64=..\TruncateDatabaseCruft.exe
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.33
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.34
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_CompanyName=Rödl Dynamics GmbH
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -24,6 +24,7 @@ If (DirCreate(@TempDir & '\Scripts\')) Then
 	FileInstall(".\TruncateTables.ps1", @TempDir & '\Scripts\TruncateTables.ps1')
 	FileInstall(".\ProcedureTruncateCruft.sql", @TempDir & '\Scripts\ProcedureTruncateCruft.sql')
 	FileInstall(".\TruncateTableGUI.au3", @TempDir & '\Scripts\TruncateTableGUI.au3')
+	FileInstall(".\RödlPartnerLogo.jpg", @TempDir & '\Scripts\RödlPartnerLogo.jpg')
 EndIf
 
 InitGUI()
@@ -33,33 +34,37 @@ Func InitGUI()
 	Local $tableEndings[1] = []
 
     ; Create a GUI with various controls.
-    Local $hGUI 						= GUICreate("Truncate tables", 500, 500)
+    Local $hGUI 						= GUICreate("Truncate tables", 500, 600)
 
 	; Buttons
-    Local $idOK 						= GUICtrlCreateButton("Delete data", 100, 440, 75, 25)
+    Local $idOK 						= GUICtrlCreateButton("Delete data", 100, 540, 75, 25)
 	GUICtrlSetState($idOK, $GUI_DISABLE)
-	Local $idCANCEL 					= GUICtrlCreateButton("Cancel", 300, 440, 75, 25)
+	Local $idCANCEL 					= GUICtrlCreateButton("Cancel", 300, 540, 75, 25)
 
-	Local $idAdd						= GUICtrlCreateButton("Add", 350, 170, 100, 20)
-	Local $idRemove						= GUICtrlCreateButton("Remove", 350, 270, 100, 20)
+	Local $idAdd						= GUICtrlCreateButton("Add", 350, 270, 100, 20)
+	Local $idRemove						= GUICtrlCreateButton("Remove", 350, 370, 100, 20)
 
 	; Input
-	Local $guiServerName				= GUICtrlCreateInput("", 130, 70, 200, 20)
-	Local $guiAddTableEnding			= GUICtrlCreateInput("", 130, 170, 200, 20)
+	Local $guiServerName				= GUICtrlCreateInput("", 130, 170, 200, 20)
+	Local $guiDatabaseName				= GUICtrlCreateInput("AxDB", 130, 220, 200, 20)
+	Local $guiAddTableEnding			= GUICtrlCreateInput("", 130, 270, 200, 20)
 
 	; Labels
-	Local $guiDescription 				= GUICtrlCreateLabel("Truncate all tables from a given database ending with strings given in this form.", 20, 20, 460, 40);
-	Local $guiServerNameLabel			= GUICtrlCreateLabel("Server name", 20, 70, 80, 20)
-	Local $guiAddTableEndingLabel		= GUICtrlCreateLabel("Add table ending", 20, 170, 110, 20)
-	Local $guiAddTableEndingConfirm		= GUICtrlCreateLabel("", 130, 220, 250, 20)
-	Local $guiRemoveTableEndingLabel	= GUICtrlCreateLabel("Remove table ending", 20, 270, 110, 20)
-	Local $guiRemoveTableEndingConfirm	= GUICtrlCreateLabel("", 130, 320, 250, 20)
-	Local $guiTableEndings				= GUICtrlCreateLabel("Chosen tables: ", 20, 370, 460, 50)
-
+	Local $guiDescription 				= GUICtrlCreateLabel("Truncate all tables from a given database ending with strings given in this form.", 20, 120, 460, 40);
+	Local $guiServerNameLabel			= GUICtrlCreateLabel("Server name", 20, 170, 80, 20)
+	Local $guiDatabaseNameLabel			= GUICtrlCreateLabel("Database name", 20, 220, 80, 20)
+	Local $guiAddTableEndingLabel		= GUICtrlCreateLabel("Add table ending", 20, 270, 110, 20)
+	Local $guiAddTableEndingConfirm		= GUICtrlCreateLabel("", 130, 320, 250, 20)
+	Local $guiRemoveTableEndingLabel	= GUICtrlCreateLabel("Remove table ending", 20, 370, 110, 20)
+	Local $guiRemoveTableEndingConfirm	= GUICtrlCreateLabel("", 130, 420, 250, 20)
+	Local $guiTableEndings				= GUICtrlCreateLabel("Chosen tables: ", 20, 470, 460, 50)
 
 	; ComboBox
-	Local $guiRemoveTableEnding			= GUICtrlCreateCombo("", 130, 270, 200, 20)
+	Local $guiRemoveTableEnding			= GUICtrlCreateCombo("", 130, 370, 200, 20)
 	GUICtrlSetData($guiRemoveTableEnding, $tableEndings)
+
+	; Logo
+	Local $guiRoedlLogo					= GUICtrlCreatePic(@TempDir & '\Scripts\RödlPartnerLogo.jpg', 50, 20, 400, 75)
 
     ; Display the GUI.
     GUISetState(@SW_SHOW, $hGUI)
@@ -130,10 +135,16 @@ Func InitGUI()
 				_DeleteTemp()
                 ExitLoop
 			Case $idOK
-				If StringLen(GUICtrlRead($guiServerName)) > 0 Then
-					RunWait('powershell.exe -file ' & @TempDir & '\Scripts\TruncateTables.ps1 -server ' & GUICtrlRead($guiServerName) & ' -tableEnding ' & MakeList($tableEndings, ",", "[", "]"))
+				If StringLen(GUICtrlRead($guiServerName)) = 0 Or StringLen(GUICtrlRead($guiDatabaseName)) = 0 Then
+					If StringLen(GUICtrlRead($guiServerName)) = 0 And StringLen(GUICtrlRead($guiDatabaseName)) = 0 Then
+						CreateNotice("No server and database chosen!")
+					ElseIf StringLen(GUICtrlRead($guiServerName)) = 0 Then
+						CreateNotice("No server chosen!")
+					Else
+						CreateNotice("No database chosen!")
+					EndIf
 				Else
-					CreateNotice("No server chosen!")
+					RunWait('powershell.exe -file ' & @TempDir & '\Scripts\TruncateTables.ps1 -server ' & GUICtrlRead($guiServerName) & ' -database ' & GUICtrlRead($guiDatabaseName) & ' -tableEnding ' & MakeList($tableEndings, ",", "[", "]"))
 				EndIf
         EndSwitch
     WEnd
