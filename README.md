@@ -17,9 +17,17 @@ It is specifically written for [D365FO](https://docs.microsoft.com/de-de/dynamic
 ![image](https://user-images.githubusercontent.com/47419982/154085244-bcf54490-0920-44cb-b88d-c6eb2c17b2a1.png)
 
 
+
 # How to change the scripts
 
 The program contains a SQL, a PowerShell and an [AutoIt](https://www.autoitscript.com/site/) script. For the AutoIt script you can use [SciTE](https://www.autoitscript.com/site/autoit-script-editor/) as an editor.
+
+## Install AutoIt
+
+1. Download and install [AutoIt3](https://www.autoitscript.com/site/).
+2. Download and install [SciTE](https://www.autoitscript.com/site/autoit-script-editor/downloads/).
+
+For instructions in greater detail and the AutoIt-Wiki click [HERE](https://www.autoitscript.com/site/autoit-script-editor/installation/).
 
 ## AutoIt FileInstall and Compiling
 
