@@ -2,7 +2,7 @@
 #AutoIt3Wrapper_Icon=Scissors.ico
 #AutoIt3Wrapper_Outfile=..\TruncateDatabaseCruft.exe
 #AutoIt3Wrapper_Outfile_x64=..\TruncateDatabaseCruft.exe
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.40
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.45
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_CompanyName=Rödl Dynamics GmbH
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -31,21 +31,20 @@ InitGUI()
 
 Func InitGUI()
 
-	Local $tableEndings[1] = []
+	Local $tableEndings[3] = ["log", "staging", "history"]
 
     ; Create a GUI with various controls.
     Local $hGUI 						= GUICreate("Truncate tables", 500, 600)
 
 	; Buttons
     Local $idOK 						= GUICtrlCreateButton("Delete data", 100, 540, 75, 25)
-	GUICtrlSetState($idOK, $GUI_DISABLE)
 	Local $idCANCEL 					= GUICtrlCreateButton("Cancel", 300, 540, 75, 25)
 
 	Local $idAdd						= GUICtrlCreateButton("Add", 350, 270, 100, 20)
 	Local $idRemove						= GUICtrlCreateButton("Remove", 350, 370, 100, 20)
 
 	; Input
-	Local $guiServerName				= GUICtrlCreateInput("", 130, 170, 200, 20)
+	Local $guiServerName				= GUICtrlCreateInput("localhost", 130, 170, 200, 20)
 	Local $guiDatabaseName				= GUICtrlCreateInput("AxDB", 130, 220, 200, 20)
 	Local $guiAddTableEnding			= GUICtrlCreateInput("", 130, 270, 200, 20)
 
@@ -55,13 +54,13 @@ Func InitGUI()
 	Local $guiDatabaseNameLabel			= GUICtrlCreateLabel("Database name", 20, 220, 80, 20)
 	Local $guiAddTableEndingLabel		= GUICtrlCreateLabel("Add table ending", 20, 270, 110, 20)
 	Local $guiAddTableEndingConfirm		= GUICtrlCreateLabel("", 130, 320, 250, 20)
+
 	Local $guiRemoveTableEndingLabel	= GUICtrlCreateLabel("Remove table ending", 20, 370, 110, 20)
 	Local $guiRemoveTableEndingConfirm	= GUICtrlCreateLabel("", 130, 420, 250, 20)
-	Local $guiTableEndings				= GUICtrlCreateLabel("Chosen tables: ", 20, 470, 460, 50)
-
+	Local $guiTableEndings				= GUICtrlCreateLabel("Chosen tables: " & MakeList($tableEndings, ", ", "*"), 20, 470, 460, 50)
 	; ComboBox
 	Local $guiRemoveTableEnding			= GUICtrlCreateCombo("", 130, 370, 200, 20)
-	GUICtrlSetData($guiRemoveTableEnding, $tableEndings)
+	GUICtrlSetData($guiRemoveTableEnding, MakeList($tableEndings))
 
 	; Logo
 	Local $guiRoedlLogo					= GUICtrlCreatePic(@TempDir & '\Scripts\RödlPartnerLogo.jpg', 0, 0, 500, 75)
